@@ -14,4 +14,15 @@ shell = ipython
 cd .\casualscrap\
 8. Create scrapy spider
 scrapy genspider casualspider https://www.batabd.com/collections/casual-shoes
-
+9. Run scrapy shell
+10. 
+    fetch('https://www.batabd.com/collections/casual-shoes')
+    response
+    boxes = response.css("div.grid-item.col5.col-6.col-md-4.col-lg-3")
+    len(boxes)
+    box = boxes[5]
+    box.css("div.product-bottom a::text").get()
+    box.css("div.product-bottom span::text").get().strip()
+    box.css("span.old-price::text").get()
+    box.css("span.special-price::text").get()
+11. Now Transfer this to casualspider.py file
