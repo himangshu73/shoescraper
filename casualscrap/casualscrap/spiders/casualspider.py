@@ -16,3 +16,12 @@ class CasualspiderSpider(scrapy.Spider):
                 'old-price'     : box.css("span.old-price::text").get(),
                 'special-price' : box.css("span.special-price::text").get(),
             }
+
+        next_page =  response.css("li.text a ::attr(href)").getall()
+
+        if next_page is not None:
+            if len(next_page)>1:
+                next_page_url = 'https://www.batabd.com'+next_page[1]
+            else:
+                next_page_url = 'https://www.batabd.com'+next_page[0]
+            yield response.follow(next_page_url, callback=self.parse)
