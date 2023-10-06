@@ -26,3 +26,6 @@ scrapy genspider casualspider https://www.batabd.com/collections/casual-shoes
     box.css("span.old-price::text").get()
     box.css("span.special-price::text").get()
 11. Now Transfer this to casualspider.py file
+12. Find next page url
+    response.css("li.text a ::attr(href)").getall()
+13. Added pagination and scraped all pages
