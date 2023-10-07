@@ -29,3 +29,4 @@ scrapy genspider casualspider https://www.batabd.com/collections/casual-shoes
 12. Find next page url
     response.css("li.text a ::attr(href)").getall()
 13. Added pagination and scraped all pages
+14. Enter single page and scraped information from each page
