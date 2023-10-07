@@ -10,12 +10,9 @@ class CasualspiderSpider(scrapy.Spider):
         boxes = response.css("div.grid-item.col5.col-6.col-md-4.col-lg-3")
 
         for box in boxes:
-            yield{
-                'vendor'        : box.css("div.product-bottom a::text").get(),
-                'name'          : box.css("div.product-bottom span::text").get().strip(),
-                'old-price'     : box.css("span.old-price::text").get(),
-                'special-price' : box.css("span.special-price::text").get(),
-            }
+            relative_url = box.css("div.product-bottom a.product-title ::attr(href)").get()
+            shoe_url = 'https://www.batabd.com'+relative_url
+            yield response.follow(shoe_url, callback=self.parse_shoepage)
 
         next_page =  response.css("li.text a ::attr(href)").getall()
 
@@ -24,4 +21,13 @@ class CasualspiderSpider(scrapy.Spider):
                 next_page_url = 'https://www.batabd.com'+next_page[1]
             else:
                 next_page_url = 'https://www.batabd.com'+next_page[0]
-            yield response.follow(next_page_url, callback=self.parse)
+            yield response.follow(next_page_url, callback=self.parse)    
+    
+    def parse_shoepage(self,response):
+        yield {
+            'URL'   : response.url,
+            'Title' : response.css("h1.product-title span::text").get().strip(),
+            'Brand' : response.css("div.vendor-product a::text").get().strip(),
+            'SKU'   : response.css("div.sku-product span::text").get().strip(),
+            'Inventory': response.css("div.product-inventory span::text").get().strip()
+        }
